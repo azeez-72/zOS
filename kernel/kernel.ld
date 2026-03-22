@@ -11,7 +11,7 @@ SECTIONS {
 	.data   : { *(.data) *(.data.*) } :data
 	.tarfs  : { *(.tarfs) } :data
 	_bss_start = .;
-	.bss    : { *(.bss) *(.bss.*) *(COMMON) } :data
+	.bss    : { *(.bss) *(.bss.*) *(.sbss) *(.sbss.*) *(COMMON) } :data
 	. = ALIGN(16);
 	. += 16384;
 	_stack_top = .;
