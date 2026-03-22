@@ -36,6 +36,7 @@ trap_entry:
 	ld ra, 0(sp)
         # ld sp, 8(sp)
         ld gp, 16(sp)
+        ld tp, 24(sp) 
         ld t0, 32(sp)
         ld t1, 40(sp)
         ld t2, 48(sp)
