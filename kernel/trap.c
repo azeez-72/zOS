@@ -1,14 +1,12 @@
 #include "layout.h"
 #include "riscv.h"
-#include "include/printk.h"
-#include "include/uart.h"
-#include "include/stdint.h"
-#include "include/proc.h"
-#include "include/console.h"
-#include "include/vm.h"
-#include "include/syscall.h"    
-#include "include/console.h"
-#include "include/pagetable.h"
+#include <printk.h>
+#include <uart.h>
+#include <stdint.h>
+#include <proc.h>
+#include <console.h>
+#include <vm.h>
+#include <pagetable.h>
 
 #define TIMER_INTERVAL 1000000  // cycle between preemptions in a round robin type scheduler use
 #define IRQ_S_EXTERNAL 9

@@ -87,7 +87,7 @@ _start_high:
 5:
   mv a0, s0
   mv a1, s1
-  call boot
+  call main
   j .
 
 

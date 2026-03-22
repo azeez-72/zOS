@@ -1,7 +1,7 @@
-#include "include/vm.h"
-#include "include/page.h"
-#include "include/pagetable.h"
-#include "include/util.h"
+#include <vm.h>
+#include <page.h>
+#include <pagetable.h>
+#include <util.h>
 #include <printk.h>
 #include "layout.h"
 #include "riscv.h"

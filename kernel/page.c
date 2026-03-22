@@ -1,5 +1,5 @@
-#include "include/page.h"
-#include "include/util.h"
+#include <page.h>
+#include <util.h>
 #include <printk.h>
 
 #define GARBAGE 0xDE

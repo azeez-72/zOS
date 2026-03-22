@@ -3,7 +3,7 @@
 
 #include "../riscv.h"
 #include "../layout.h"
-#include "util.h"
+#include <util.h>
 
 // page states
 enum page_state {

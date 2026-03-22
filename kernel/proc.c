@@ -2,11 +2,10 @@
 #include <printk.h>
 #include <proc.h>
 #include "riscv.h"
-#include "include/console.h"
-#include "include/shell.h"
-#include "vm.h"
-#include "pagetable.h"
-#include "page.h"
+#include <shell.h>
+#include <vm.h>
+#include <pagetable.h>
+#include <page.h>
 
 #define NPROC       8
 #define KSTACK_SIZE 4096
@@ -55,49 +54,10 @@ struct proc* alloc_proc(void (*fn)(void)) {
     return NULL;
 }
 
-// void console_test(void) {
-//     char buf[128];
-//     console_write("console test: type something\n", 29);
-//     int n = console_read(buf, 128);
-//     console_write("you typed: ", 11);
-//     console_write(buf, n);
-//     // done
-//     current_proc->state = P_ZOMBIE;
-//     swtch(&current_proc->ctx, &scheduler_ctx);
-// }
-
-
-extern void utest_a(void);
-extern void utest_b(void);
-
 void userinit(void) {
-    // // S-mode processes
-    // struct proc *p = alloc_proc(shell);
-    // if (p == NULL) printk("userinit: no slot for shell\n");
-
-    // U-mode processes
-    struct proc *a = alloc_umode_proc(utest_a);
-    if (a == NULL) printk("userinit: no slot for utest_a\n");
-
-    struct proc *b = alloc_umode_proc(utest_b);
-    if (b == NULL) printk("userinit: no slot for utest_b\n");
-
+    // remove utest_a and utest_b once you're confident
     struct proc *p = alloc_umode_proc(shell);
     if (p == NULL) printk("userinit: no slot for shell\n");
-}
-
-void background(void) {
-    while (1) {
-        // count timer ticks
-        static uint32_t ticks = 0;
-        ticks++;
-        // print every 100 yields
-        if (ticks % 100 == 0)
-            printk("background: tick %d\n", ticks);
-        // yield back to scheduler
-        current_proc->state = P_RUNNABLE;
-        swtch(&current_proc->ctx, &scheduler_ctx);
-    }
 }
 
 

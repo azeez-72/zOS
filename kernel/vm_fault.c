@@ -1,6 +1,6 @@
-#include "include/vm.h"
-#include "include/page.h"
-#include "include/pagetable.h"
+#include <vm.h>
+#include <page.h>
+#include <pagetable.h>
 #include "layout.h"
 #include "riscv.h"
 #include <printk.h>

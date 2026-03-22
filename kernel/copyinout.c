@@ -1,10 +1,8 @@
-#include "include/pagetable.h"
+#include <pagetable.h>
 #include "layout.h"
-#include "riscv.h"
-#include "include/stdint.h"
-#include "include/string.h"
-#include "include/util.h"
-#include "include/printk.h"
+#include <stdint.h>
+#include <string.h>
+#include <util.h>
 
 // translate user virtual address to physical address
 // returns 0 if not mapped or not user-accessible

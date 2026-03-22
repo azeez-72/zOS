@@ -2,7 +2,7 @@
 #define _PAGETABLE_H
 
 #include "../riscv.h"
-#include "stdint.h"
+#include <stdint.h>
 
 pte_t *walk(pagetable_t pagetable, uint64 va, int alloc);
 void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm);

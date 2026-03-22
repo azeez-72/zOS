@@ -1,5 +1,5 @@
 #pragma once
-#include "stdint.h"
+#include <stdint.h>
 
 void consoleinit(void);
 void consoleintr(uint32_t c);

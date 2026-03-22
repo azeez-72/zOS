@@ -1,5 +1,4 @@
-#include <ulib.h>          // was "ulib.h"
-#include <syscall_nums.h>  // was "syscall_nums.h"
+#include <ulib.h>
 #define BUF_SIZE 128
 
 static unsigned long ustrlen(const char *s) {

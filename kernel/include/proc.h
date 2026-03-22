@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "vm.h"
+#include <vm.h>
 
 // Very simple process states for now.
 enum proc_state {

@@ -1,11 +1,12 @@
 KLANG ?= c
+SUBMIT_DIR ?= /submit
 
 CROSS   := riscv64-unknown-elf-
 CC      := $(CROSS)gcc
 LD      := $(CROSS)ld
 AR      := $(CROSS)ar
 OBJCOPY := $(CROSS)objcopy
-CFLAGS  := -Wall -Werror -ffreestanding -nostdlib -nostdinc -mcmodel=medany -march=rv64imac_zicsr_zifencei -mabi=lp64
+CFLAGS  := -Wall -Werror -Os -ffreestanding -fno-builtin -nostdlib -nostdinc -isystem $(shell $(CC) -print-file-name=include) -mcmodel=medany -march=rv64imac_zicsr_zifencei -mabi=lp64 -ffunction-sections -fdata-sections
 
 KERN_ASM := $(patsubst %,build/%.o,$(wildcard kernel/*.S))
 LIBC_OBJ := $(patsubst %,build/%.o,$(filter-out libc/crt.S,$(wildcard libc/*.c libc/*.S)))
@@ -51,7 +52,7 @@ zig-out/lib/libsbunix.a: $(wildcard kernel/*.zig) build.zig
 .SECONDEXPANSION:
 build/rootfs/bin/%: $$(wildcard bin/%/*.c) build/libc/crt.S.o build/libc.a
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -Ilibc/include build/libc/crt.S.o bin/$*/*.c build/libc.a -o $@
+	$(CC) $(CFLAGS) -Ilibc/include build/libc/crt.S.o bin/$*/*.c build/libc.a -Wl,--gc-sections -o $@
 
 build/tarfs.o: $(USER_BIN)
 	cp -a rootfs/. build/rootfs/
@@ -67,7 +68,7 @@ build/kernel.elf: $(KERN_ALL) build/tarfs.o
 	$(LD) -T kernel/kernel.ld $(KERN_ALL) build/tarfs.o -o $@
 
 thirdparty: build/libc/crt.S.o build/libc.a
-	$(MAKE) -C thirdparty busybox-install
+	$(MAKE) -C thirdparty install
 	@rm -f build/tarfs.o
 	$(MAKE) build/kernel.elf
 
@@ -90,5 +91,26 @@ qemu: build/kernel.elf $(DISK_IMG)
 clean:
 	rm -rf build zig-out .zig-cache
 
+submit:
+	@set -e; \
+	STMP=$$(mktemp -d /tmp/sbunix-submit.XXXXXX); \
+	cleanup() { set +e; chmod -R u+w "$$STMP" 2>/dev/null; rm -rf "$$STMP" 2>/dev/null; }; \
+	trap cleanup EXIT; \
+	rsync -a \
+		--exclude='.git' --exclude='build/' --exclude='zig-out/' \
+		--exclude='.zig-cache/' --exclude='.claude/' --exclude='thirdparty/' \
+		--max-size=100K \
+		. "$$STMP/"; \
+	cd "$$STMP"; \
+	git init -q; \
+	git add -A; \
+	git -c user.name=student -c user.email=student@sbunix commit -q -m "submit"; \
+	rm -rf $(SUBMIT_DIR)/sbunix.2 2>/dev/null || true; \
+	mv $(SUBMIT_DIR)/sbunix.1 $(SUBMIT_DIR)/sbunix.2 2>/dev/null || true; \
+	mv $(SUBMIT_DIR)/sbunix $(SUBMIT_DIR)/sbunix.1 2>/dev/null || true; \
+	mkdir -p $(SUBMIT_DIR)/sbunix; \
+	git archive HEAD | tar -x -C $(SUBMIT_DIR)/sbunix; \
+	echo "Submitted to $(SUBMIT_DIR)/sbunix"
+
 .PRECIOUS: build/%.S.o build/%.c.o
-.PHONY: all qemu clean thirdparty
+.PHONY: all qemu clean thirdparty submit

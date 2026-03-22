@@ -18,9 +18,7 @@ void *memcpy(void *dst, const void *src, uint64 n)
   return dst;
 }
 
-void panic(const char *msg)
-{
-  printk("PANIC: %s\n", msg);
-  for (;;)
-    ;
+void panic(const char *msg) {
+    printk("PANIC: %s\n", msg);
+    for (;;) asm volatile("wfi");
 }

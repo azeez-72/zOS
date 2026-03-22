@@ -1,5 +1,5 @@
 #pragma once
-#include "stdint.h"
+#include <stdint.h>
 
 uint32_t  strlen(const char *s);
 int       strcmp(const char *a, const char *b);

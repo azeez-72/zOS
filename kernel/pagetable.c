@@ -1,9 +1,9 @@
-#include "include/page.h"
-#include "include/util.h"
+#include <page.h>
+#include <util.h>
 #include "layout.h"
 #include "riscv.h"
-#include "printk.h"
-#include "pagetable.h"
+#include <printk.h>
+#include <pagetable.h>
 
 pagetable_t kernel_pagetable;
 

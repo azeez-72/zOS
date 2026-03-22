@@ -1,5 +1,4 @@
 #include <console.h>
-#include <printk.h>
 #include <stdint.h>
 #include <uart.h>
 #include <proc.h>
