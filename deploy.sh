@@ -10,7 +10,7 @@ HOST="course-containers.compas.cs.stonybrook.edu"
 PORT="2207"
 USER="student"
 REMOTE_DIR="~/tests/sbunix_azeez_test_main"
-LOCAL_DIR="sbunix-skeleton"
+LOCAL_DIR="."
 
 # ─── colors ──────────────────────────────────────────────────────────────────
 RED='\033[0;31m'
